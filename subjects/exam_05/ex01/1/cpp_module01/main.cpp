@@ -18,5 +18,4 @@ int main()
 
   richard.forgetSpell("Fwoosh");
   richard.launchSpell("Fwoosh", bob);
-  delete fwoosh;
 }
