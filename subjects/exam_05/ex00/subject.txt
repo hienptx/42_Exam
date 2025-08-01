@@ -11,3 +11,240 @@ the same output as:
 std::cout << "{" << v[0] << ", " << v[1] << "}" << std::endl;
 
 you will find a main in this directory that mus work with your class.
+
+#include <iostream>
+
+class vect2 {
+private:
+    int data[2];
+
+public:
+    // Default constructor
+    vect2() {
+        data[0] = 0;
+        data[1] = 0;
+    }
+    
+    // Parameterized constructor
+    vect2(int x, int y) {
+        data[0] = x;
+        data[1] = y;
+    }
+    
+    // Copy constructor
+    vect2(const vect2& other) {
+        data[0] = other.data[0];
+        data[1] = other.data[1];
+    }
+    
+    // Assignment operator
+    vect2& operator=(const vect2& other) {
+        if (this != &other) {
+            data[0] = other.data[0];
+            data[1] = other.data[1];
+        }
+        return *this;
+    }
+    
+    // Index operator for accessing components
+    int& operator[](int index) {
+        return data[index];
+    }
+    
+    const int& operator[](int index) const {
+        return data[index];
+    }
+    
+    // Addition operator
+    vect2 operator+(const vect2& other) const {
+        return vect2(data[0] + other.data[0], data[1] + other.data[1]);
+    }
+    
+    // Subtraction operator
+    vect2 operator-(const vect2& other) const {
+        return vect2(data[0] - other.data[0], data[1] - other.data[1]);
+    }
+    
+    // Scalar multiplication operator
+    vect2 operator*(int scalar) const {
+        return vect2(data[0] * scalar, data[1] * scalar);
+    }
+    
+    // Unary minus operator
+    vect2 operator-() const {
+        return vect2(-data[0], -data[1]);
+    }
+    
+    // Compound assignment operators
+    vect2& operator+=(const vect2& other) {
+        data[0] += other.data[0];
+        data[1] += other.data[1];
+        return *this;
+    }
+    
+    vect2& operator-=(const vect2& other) {
+        data[0] -= other.data[0];
+        data[1] -= other.data[1];
+        return *this;
+    }
+    
+    vect2& operator*=(int scalar) {
+        data[0] *= scalar;
+        data[1] *= scalar;
+        return *this;
+    }
+    
+    // Increment operators
+    vect2& operator++() { // prefix
+        ++data[0];
+        ++data[1];
+        return *this;
+    }
+    
+    vect2 operator++(int) { // postfix
+        vect2 temp(*this);
+        ++data[0];
+        ++data[1];
+        return temp;
+    }
+    
+    // Decrement operators
+    vect2& operator--() { // prefix
+        --data[0];
+        --data[1];
+        return *this;
+    }
+    
+    vect2 operator--(int) { // postfix
+        vect2 temp(*this);
+        --data[0];
+        --data[1];
+        return temp;
+    }
+    
+    // Equality operator
+    bool operator==(const vect2& other) const {
+        return (data[0] == other.data[0]) && (data[1] == other.data[1]);
+    }
+    
+    // Inequality operator
+    bool operator!=(const vect2& other) const {
+        return !(*this == other);
+    }
+};
+
+// Output stream operator
+std::ostream& operator<<(std::ostream& os, const vect2& v) {
+    os << "{" << v[0] << ", " << v[1] << "}";
+    return os;
+}
+
+// Scalar multiplication (scalar * vector)
+vect2 operator*(int scalar, const vect2& v) {
+    return vect2(v[0] * scalar, v[1] * scalar);
+}
+
+
+// Test main function
+int main() {
+    using namespace std;
+    
+    cout << "=== Basic Construction Tests ===" << endl;
+    vect2 v1;  // Default constructor
+    vect2 v2(1,2);  // Parameterized constructor
+    const vect2 v3(v2);  // Copy constructor
+    vect2 v4 = v2;  // Copy constructor via assignment syntax
+    
+    cout << "v1 (default): " << v1 << endl;
+    cout << "v2 (1,2): " << v2 << endl;
+    cout << "v3 (copy of v2): " << v3 << endl;
+    cout << "v4 (copy of v2): " << v4 << endl;
+    
+    cout << "\n=== Index Operator Tests ===" << endl;
+    cout << "v2[0] = " << v2[0] << ", v2[1] = " << v2[1] << endl;
+    v2[0] = 10;
+    v2[1] = 20;
+    cout << "After modification: v2 = " << v2 << endl;
+    
+    cout << "\n=== Assignment Operator Test ===" << endl;
+    vect2 v5;
+    v5 = v2;
+    cout << "v5 = v2: " << v5 << endl;
+    
+    cout << "\n=== Increment/Decrement Tests ===" << endl;
+    vect2 v6(5, 10);
+    cout << "Initial v6: " << v6 << endl;
+    cout << "v6++: " << v6++ << " (v6 after: " << v6 << ")" << endl;
+    cout << "++v6: " << ++v6 << endl;
+    cout << "v6--: " << v6-- << " (v6 after: " << v6 << ")" << endl;
+    cout << "--v6: " << --v6 << endl;
+    
+    cout << "\n=== Compound Assignment Tests ===" << endl;
+    vect2 va(3, 4);
+    vect2 vb(1, 2);
+    cout << "va: " << va << ", vb: " << vb << endl;
+    va += vb;
+    cout << "va += vb: " << va << endl;
+    va -= vb;
+    cout << "va -= vb: " << va << endl;
+    va *= 3;
+    cout << "va *= 3: " << va << endl;
+    
+    cout << "\n=== Arithmetic Operations Tests ===" << endl;
+    vect2 vc(2, 3);
+    vect2 vd(4, 5);
+    cout << "vc: " << vc << ", vd: " << vd << endl;
+    cout << "vc + vd: " << vc + vd << endl;
+    cout << "vc - vd: " << vc - vd << endl;
+    cout << "vc * 2: " << vc * 2 << endl;
+    cout << "3 * vc: " << 3 * vc << endl;
+    cout << "-vc: " << -vc << endl;
+    
+    cout << "\n=== Complex Expression Tests ===" << endl;
+    vect2 ve(1, 1);
+    vect2 vf(2, 2);
+    cout << "ve: " << ve << ", vf: " << vf << endl;
+    vect2 result = ve + vf * 2 - ve;
+    cout << "ve + vf * 2 - ve: " << result << endl;
+    result = 2 * ve + 3 * vf;
+    cout << "2 * ve + 3 * vf: " << result << endl;
+    
+    cout << "\n=== Comparison Tests ===" << endl;
+    vect2 vg(1, 2);
+    vect2 vh(1, 2);
+    vect2 vi(3, 4);
+    cout << "vg: " << vg << ", vh: " << vh << ", vi: " << vi << endl;
+    cout << "vg == vh: " << (vg == vh) << endl;
+    cout << "vg == vi: " << (vg == vi) << endl;
+    cout << "vg != vh: " << (vg != vh) << endl;
+    cout << "vg != vi: " << (vg != vi) << endl;
+    
+    cout << "\n=== Zero Vector Tests ===" << endl;
+    vect2 zero;
+    vect2 vj(5, 7);
+    cout << "zero: " << zero << ", vj: " << vj << endl;
+    cout << "zero + vj: " << zero + vj << endl;
+    cout << "vj - vj: " << vj - vj << endl;
+    cout << "zero * 100: " << zero * 100 << endl;
+    
+    cout << "\n=== Original Test Case ===" << endl;
+    vect2 v1_orig;
+    vect2 v2_orig(1,2);
+    const vect2 v3_orig(v2_orig);
+    vect2 v4_orig = v2_orig;
+    v4_orig++;
+    ++v4_orig;
+    v4_orig--;
+    --v4_orig;
+    v2_orig += v3_orig;
+    v1_orig -= v2_orig;
+    v2_orig = v3_orig + v3_orig * 2;
+    v2_orig = 3 * v2_orig;
+    v1_orig *= 42;
+    v1_orig = v1_orig - v1_orig + v1_orig;
+    cout << -v1_orig << endl;
+    cout << (v1_orig == v3_orig) << endl;
+    cout << (v1_orig != v3_orig) << endl;
+    
+    return 0;
+}
