@@ -1,0 +1,26 @@
+bignum is an object, representing an arbitrary precision number. This is useful when you want to store a number bigger than
+SIZE_MAX without any loss of the precision. This is often achieve by storing the number as an array or a string containing its
+different parts.
+Create a class call bigint that will store an arbitrary precision unsigned integer. 
+Your class must support addition, comparision and "digitshift" (similar to bitshift) but instead of shifting the bits, 
+you will shift the digit in base 10, (42 << 3) == 42000 & (1337 >> 2) == 13
+Your bigint must be printable with the  <<operator (in base 10), output should not contain any leading zeros.
+
+int main()
+{
+    const bigint a(42);
+    bigint b(1337), c(12), d(a);
+
+    a + b;
+    a += b;
+    ++a;
+    a++;
+    (a << 10) + 42;
+    d <<= 4;
+    d >>= (const bigint)2;
+    d < a;
+    d > a;
+    d != a;
+    d <= a; 
+    d >= a;
+}
